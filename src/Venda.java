@@ -7,7 +7,7 @@ public class Venda {
     private final int id;
     private final Cliente cliente;
     private final LocalDate data;
-    private final List<ItemVenda> itens = new ArrayList<>(); 
+    private final List<ItemVenda> itens;
     private boolean finalizada;
 
     public Venda(int id, Cliente cliente) {
@@ -17,13 +17,35 @@ public class Venda {
         this.id = id;
         this.cliente = cliente;
         this.data = LocalDate.now();
+        this.itens = new ArrayList<>();
+        this.finalizada = false;
     }
-
 
     public void adicionarItem(Produto produto, int quantidade) throws EstoqueInsuficienteException {
         if (finalizada) {
             throw new IllegalStateException("A venda já foi finalizada.");
         }
+        if (produto == null) {
+            throw new IllegalArgumentException("Produto não informado.");
+        }
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
+        }
+
+        int jaNaVenda = 0;
+        for (ItemVenda item : itens) {
+            if (item.getProduto() == produto) {
+                jaNaVenda += item.getQuantidade();
+            }
+        }
+
+        int totalPedido = jaNaVenda + quantidade;
+        if (!produto.temEstoque(totalPedido)) {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome()
+                    + "\": pedido total " + totalPedido
+                    + ", disponível " + produto.getQuantidadeEstoque() + ".");
+        }
+
         itens.add(new ItemVenda(produto, quantidade));
     }
 
@@ -35,13 +57,12 @@ public class Venda {
         return total;
     }
 
- 
     public void finalizarVenda() throws VendaInvalidaException {
-        if (itens.isEmpty()) {
-            throw new VendaInvalidaException("Não é possível finalizar uma venda sem itens.");
-        }
         if (finalizada) {
             throw new VendaInvalidaException("Esta venda já foi finalizada.");
+        }
+        if (itens.isEmpty()) {
+            throw new VendaInvalidaException("Não é possível finalizar uma venda sem itens.");
         }
         for (ItemVenda item : itens) {
             item.getProduto().baixarEstoque(item.getQuantidade());
@@ -49,7 +70,6 @@ public class Venda {
         finalizada = true;
     }
 
-   
     public List<ItemVenda> getItens() {
         return List.copyOf(itens);
     }
