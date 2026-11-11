@@ -21,8 +21,7 @@ public class ItemVenda {
         this.precoUnitario = subtotal / quantidade;
     }
 
-   
-    public ItemVenda(Produto produto, int quantidade, double precoUnitario) {
+    private ItemVenda(Produto produto, int quantidade, double precoUnitario) {
         validar(produto, quantidade);
         if (precoUnitario < 0) {
             throw new IllegalArgumentException("O preço unitário não pode ser negativo.");
