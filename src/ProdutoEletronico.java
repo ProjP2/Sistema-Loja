@@ -10,7 +10,11 @@ public class ProdutoEletronico extends Produto{
 
     @Override
     public double calcularPreco(int quantidade) {
-        return (quantidade * getPrecoBase());
+        if (quantidade >= 3){
+            return quantidade * getPrecoBase() * 0.95;
+        }else{
+            return (quantidade * getPrecoBase());
+        }
     }
 
     public int getMesesGarantia(){

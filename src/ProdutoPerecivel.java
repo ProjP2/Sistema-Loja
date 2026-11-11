@@ -10,8 +10,16 @@ public class ProdutoPerecivel extends Produto{
     }
 
     @Override
-    public double calcularPreco(int quantidade){
-        return (quantidade * getPrecoBase());
+    public double calcularPreco(int quantidade) {
+        if (estaVencido()) {
+            throw new IllegalStateException("Produto vencido não pode ser vendido.");
+        }
+
+        if (diasParaVencer() <= 7){
+            return quantidade * getPrecoBase() * 0.80;
+        }else{
+            return quantidade * getPrecoBase();
+        }
     }
 
     public boolean estaVencido(){
