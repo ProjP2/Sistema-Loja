@@ -12,7 +12,7 @@ public class ProdutoPerecivel extends Produto{
     @Override
     public double calcularPreco(int quantidade) {
         if (estaVencido()) {
-            throw new IllegalStateException("Produto vencido não pode ser vendido.");
+            throw new ProdutoVencidoException("Produto vencido não pode ser vendido.");
         }
 
         if (diasParaVencer() <= 7){
