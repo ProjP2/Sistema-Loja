@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,7 +6,7 @@ public class Venda {
 
     private final int id;
     private final Cliente cliente;
-    private final LocalDate data;
+    private final LocalDateTime data;
     private final List<ItemVenda> itens;
     private boolean finalizada;
 
@@ -16,9 +16,13 @@ public class Venda {
         }
         this.id = id;
         this.cliente = cliente;
-        this.data = LocalDate.now();
+        this.data = LocalDateTime.now();
         this.itens = new ArrayList<>();
         this.finalizada = false;
+    }
+
+    public void adicionarItem(Produto produto) throws EstoqueInsuficienteException {
+        adicionarItem(produto, 1);
     }
 
     public void adicionarItem(Produto produto, int quantidade) throws EstoqueInsuficienteException {
@@ -49,6 +53,12 @@ public class Venda {
         itens.add(new ItemVenda(produto, quantidade));
     }
 
+    public void validar() throws VendaInvalidaException {
+        if (itens.isEmpty()) {
+            throw new VendaInvalidaException("Não é possível finalizar uma venda sem itens.");
+        }
+    }
+
     public double calcularTotal() {
         double total = 0;
         for (ItemVenda item : itens) {
@@ -61,9 +71,7 @@ public class Venda {
         if (finalizada) {
             throw new VendaInvalidaException("Esta venda já foi finalizada.");
         }
-        if (itens.isEmpty()) {
-            throw new VendaInvalidaException("Não é possível finalizar uma venda sem itens.");
-        }
+        validar();
         for (ItemVenda item : itens) {
             item.getProduto().baixarEstoque(item.getQuantidade());
         }
@@ -82,7 +90,7 @@ public class Venda {
         return cliente;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
