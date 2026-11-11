@@ -7,7 +7,7 @@ public class Venda {
     private final int id;
     private final Cliente cliente;
     private final LocalDate data;
-    private final List<ItemVenda> itens = new ArrayList<>(); // composição: a lista pertence à Venda
+    private final List<ItemVenda> itens = new ArrayList<>(); 
     private boolean finalizada;
 
     public Venda(int id, Cliente cliente) {
