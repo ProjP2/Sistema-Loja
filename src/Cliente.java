@@ -14,7 +14,7 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public int getID(){
+    public int getId(){
         return id;
     }
     public String getNome(){
