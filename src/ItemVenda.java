@@ -5,13 +5,12 @@ public class ItemVenda {
     private final double precoUnitario;
     private final double subtotal;
 
-  
-    ItemVenda(Produto produto, int quantidade) {
+
+    ItemVenda(Produto produto, int quantidade) throws EstoqueInsuficienteException {
         validar(produto, quantidade);
 
-      
         if (!produto.temEstoque(quantidade)) {
-            throw new IllegalStateException("Estoque insuficiente para \"" + produto.getNome()
+            throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome()
                     + "\": pedido " + quantidade
                     + ", disponível " + produto.getQuantidadeEstoque() + ".");
         }
@@ -22,7 +21,7 @@ public class ItemVenda {
         this.precoUnitario = subtotal / quantidade;
     }
 
-  
+    // Usado quando o preço já é conhecido (ex.: preço histórico da venda).
     public ItemVenda(Produto produto, int quantidade, double precoUnitario) {
         validar(produto, quantidade);
         if (precoUnitario < 0) {
