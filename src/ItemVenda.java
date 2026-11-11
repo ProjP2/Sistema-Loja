@@ -21,7 +21,7 @@ public class ItemVenda {
         this.precoUnitario = subtotal / quantidade;
     }
 
-    // Usado quando o preço já é conhecido (ex.: preço histórico da venda).
+   
     public ItemVenda(Produto produto, int quantidade, double precoUnitario) {
         validar(produto, quantidade);
         if (precoUnitario < 0) {
