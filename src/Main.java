@@ -36,6 +36,36 @@ public class Main {
         vendas.add(venda1);
         System.out.println("Estoque do fone depois: " + fone.getQuantidadeEstoque());
 
+        System.out.println("\n=== 2. Erros de regra ===");
+        Venda venda2 = new Venda(2, ana);
 
+        try{
+            venda2.adicionarItem(iogurte, 1);
+        } catch (ProdutoVencidoException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Estoque do fone continua: " + fone.getQuantidadeEstoque());
+
+        try{
+            venda2.finalizarVenda();
+        } catch (VendaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("\n=== 3. Venda antiga não muda de preço ===");
+        camisa.ligarPromocao(60.00);
+        System.out.printf("Camisa agora custa: R$ %.2f%n", camisa.calcularPreco(1));
+        System.out.printf("Total da venda 1 continua: R$ %.2f%n", venda1.calcularTotal());
+
+        System.out.println("\n=== 4. Consultas no estoque ===");
+        for (Produto produto : estoque.buscarPorNome("leite")) {
+            System.out.println("Busca por \"leite\": " + produto.getNome());
+        }
+        for (Produto produto : estoque.buscarPorNome(5)) {
+            System.out.println("Estoque baixo: " + produto.getNome() + "(" +  produto.getQuantidadeEstoque() + ")");
+        }
+
+        System.out.println("\nVendas registradas: " + vendas.size());
+        System.out.println("Programa encerrado normalmente.");
     }
 }
