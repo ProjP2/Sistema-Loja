@@ -31,7 +31,7 @@ public class Main {
         }
         System.out.printf("Total: R$ %.2f%n", venda1.calcularTotal());
 
-        System.out.println("Estoque do fone antes :" + fone.getQuantidadeEstoque());
+        System.out.println("Estoque do fone antes: " + fone.getQuantidadeEstoque());
         venda1.finalizarVenda();
         vendas.add(venda1);
         System.out.println("Estoque do fone depois: " + fone.getQuantidadeEstoque());
@@ -42,6 +42,12 @@ public class Main {
         try{
             venda2.adicionarItem(iogurte, 1);
         } catch (ProdutoVencidoException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try{
+            venda2.adicionarItem(fone, 50);
+        } catch (EstoqueInsuficienteException e) {
             System.out.println(e.getMessage());
         }
         System.out.println("Estoque do fone continua: " + fone.getQuantidadeEstoque());
@@ -61,8 +67,8 @@ public class Main {
         for (Produto produto : estoque.buscarPorNome("leite")) {
             System.out.println("Busca por \"leite\": " + produto.getNome());
         }
-        for (Produto produto : estoque.buscarPorNome("5")) {
-            System.out.println("Estoque baixo: " + produto.getNome() + "(" +  produto.getQuantidadeEstoque() + ")");
+        for (Produto produto : estoque.listarEstoqueBaixo(5)) {
+            System.out.println("Estoque baixo: " + produto.getNome() + " (" + produto.getQuantidadeEstoque() + ")");
         }
 
         System.out.println("\nVendas registradas: " + vendas.size());
