@@ -61,7 +61,7 @@ public class Main {
         for (Produto produto : estoque.buscarPorNome("leite")) {
             System.out.println("Busca por \"leite\": " + produto.getNome());
         }
-        for (Produto produto : estoque.buscarPorNome(5)) {
+        for (Produto produto : estoque.buscarPorNome("5")) {
             System.out.println("Estoque baixo: " + produto.getNome() + "(" +  produto.getQuantidadeEstoque() + ")");
         }
 
