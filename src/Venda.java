@@ -36,14 +36,8 @@ public class Venda {
             throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
         }
 
-        int jaNaVenda = 0;
-        for (ItemVenda item : itens) {
-            if (item.getProduto() == produto) {
-                jaNaVenda += item.getQuantidade();
-            }
-        }
+        int totalPedido = quantidadeNaVenda(produto) + quantidade;
 
-        int totalPedido = jaNaVenda + quantidade;
         if (!produto.temEstoque(totalPedido)) {
             throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome()
                     + "\": pedido total " + totalPedido
@@ -51,6 +45,15 @@ public class Venda {
         }
 
         itens.add(new ItemVenda(produto, quantidade));
+    }
+    private int quantidadeNaVenda(Produto produto){
+        int total = 0;
+        for (ItemVenda item : itens) {
+            if (item.getProduto() == produto) {
+                total += item.getQuantidade();
+            }
+        }
+        return total;
     }
 
     public void validar() throws VendaInvalidaException {
@@ -72,6 +75,13 @@ public class Venda {
             throw new VendaInvalidaException("Esta venda já foi finalizada.");
         }
         validar();
+        for (ItemVenda item : itens){
+            Produto produto = item.getProduto();
+            int totalPedido = quantidadeNaVenda(produto);
+            if (!produto.temEstoque(totalPedido)) {
+                throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome() + "\": pedido total "  + totalPedido + ", disponivel " + produto.getQuantidadeEstoque() + ".");
+            }
+        }
         for (ItemVenda item : itens) {
             item.getProduto().baixarEstoque(item.getQuantidade());
         }

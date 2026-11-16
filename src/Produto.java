@@ -17,10 +17,20 @@ public abstract class Produto {
     public abstract double calcularPreco(int quantidade);
 
     public void baixarEstoque(int quantidade){
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que zero");
+        }
+        if (quantidade > quantidadeEstoque) {
+            throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + nome + "\": pedido " + quantidade + ", disponivel " + quantidadeEstoque + ".");
+
+        }
         quantidadeEstoque -= quantidade;
     }
 
     public void repor(int quantidade){
+        if (quantidade <= 0) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
+        }
         quantidadeEstoque += quantidade;
     }
 
