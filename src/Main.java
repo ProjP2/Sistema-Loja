@@ -53,6 +53,13 @@ public class Main {
         System.out.println("Estoque do fone continua: " + fone.getQuantidadeEstoque());
 
         try{
+            venda2.adicionarItem(fone, 0);
+        } catch (VendaInvalidaException e){
+
+            System.out.println(e.getMessage());
+        }
+
+        try{
             venda2.finalizarVenda();
         } catch (VendaInvalidaException e) {
             System.out.println(e.getMessage());

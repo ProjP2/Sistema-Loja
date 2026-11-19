@@ -33,7 +33,7 @@ public class Venda {
             throw new IllegalArgumentException("Produto não informado.");
         }
         if (quantidade <= 0) {
-            throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
+            throw new VendaInvalidaException("A quantidade deve ser maior que zero.");
         }
 
         int totalPedido = quantidadeNaVenda(produto) + quantidade;
@@ -56,7 +56,7 @@ public class Venda {
         return total;
     }
 
-    public void validar() throws VendaInvalidaException {
+    private void validar() throws VendaInvalidaException {
         if (itens.isEmpty()) {
             throw new VendaInvalidaException("Não é possível finalizar uma venda sem itens.");
         }
