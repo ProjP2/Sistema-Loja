@@ -1,3 +1,6 @@
+package app;
+
+import modelo.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Estoque estoque = new Estoque (new ArrayList<>());
+        Estoque estoque = new Estoque(new ArrayList<>());
         List <Venda> vendas = new ArrayList<>();
 
         ProdutoEletronico fone = new ProdutoEletronico(1, "Fone Bluetooth", 100.00, 10, true, 12);

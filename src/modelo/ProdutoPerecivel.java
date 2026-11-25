@@ -1,7 +1,9 @@
+package modelo;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class ProdutoPerecivel extends Produto{
+public class ProdutoPerecivel extends Produto {
     private LocalDate dataValidade;
 
     public ProdutoPerecivel(int id, String nome, double precoBase, int quantidadeEstoque, boolean ativo, LocalDate dataValidade) {

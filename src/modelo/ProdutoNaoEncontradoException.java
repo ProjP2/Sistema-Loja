@@ -1,3 +1,5 @@
+package modelo;
+
 public class ProdutoNaoEncontradoException extends RuntimeException{
 
     public ProdutoNaoEncontradoException (String mensagem){

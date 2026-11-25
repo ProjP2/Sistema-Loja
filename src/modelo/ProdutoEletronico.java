@@ -1,6 +1,6 @@
-import java.time.LocalDate;
+package modelo;
 
-public class ProdutoEletronico extends Produto{
+public class ProdutoEletronico extends Produto {
     private int mesesGarantia;
 
     public ProdutoEletronico(int id, String nome, double precoBase, int quantidadeEstoque, boolean ativo, int mesesGarantia) {

@@ -1,3 +1,5 @@
+package modelo;
+
 public class ItemVenda {
 
     private final Produto produto;

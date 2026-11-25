@@ -1,3 +1,5 @@
+package modelo;
+
 public class ProdutoVestuario extends Produto {
 
     private String tamanho;
