@@ -8,7 +8,7 @@ public abstract class Produto {
     private int quantidadeEstoque;
     private boolean ativo;
 
-    public Produto(int id, String nome, double precoBase, int quantidadeEstoque, boolean ativo){
+    public Produto(int id, String nome, double precoBase, int quantidadeEstoque, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.precoBase = precoBase;
@@ -18,18 +18,17 @@ public abstract class Produto {
 
     public abstract double calcularPreco(int quantidade);
 
-    public void baixarEstoque(int quantidade){
+    public void baixarEstoque(int quantidade) {
         if (quantidade <= 0) {
             throw new IllegalArgumentException("A quantidade deve ser maior que zero");
         }
         if (quantidade > quantidadeEstoque) {
             throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + nome + "\": pedido " + quantidade + ", disponivel " + quantidadeEstoque + ".");
-
         }
         quantidadeEstoque -= quantidade;
     }
 
-    public void repor(int quantidade){
+    public void repor(int quantidade) {
         if (quantidade <= 0) {
             throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
         }
@@ -40,23 +39,27 @@ public abstract class Produto {
         return quantidadeEstoque >= quantidade;
     }
 
-    public void desativar(){
+    public void desativar() {
         ativo = false;
     }
 
-    public boolean isAtivo(){
+    public boolean isAtivo() {
         return ativo;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public double getPrecoBase(){
+    public double getPrecoBase() {
         return precoBase;
     }
 
-    public int getQuantidadeEstoque(){
+    public int getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
 }
