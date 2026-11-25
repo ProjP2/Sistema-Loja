@@ -23,6 +23,20 @@ public class Venda {
         this.finalizada = false;
     }
 
+    public Venda(int id, Cliente cliente, LocalDateTime data, boolean finalizada, List<ItemVenda> itens) {
+        if (cliente == null) {
+            throw new IllegalArgumentException("A venda precisa de um cliente.");
+        }
+        if (data == null) {
+            throw new IllegalArgumentException("A data da venda não pode ser nula.");
+        }
+        this.id = id;
+        this.cliente = cliente;
+        this.data = data;
+        this.finalizada = finalizada;
+        this.itens = new ArrayList<>(itens != null ? itens : List.of());
+    }
+
     public void adicionarItem(Produto produto) throws EstoqueInsuficienteException {
         adicionarItem(produto, 1);
     }
@@ -48,7 +62,8 @@ public class Venda {
 
         itens.add(new ItemVenda(produto, quantidade));
     }
-    private int quantidadeNaVenda(Produto produto){
+
+    private int quantidadeNaVenda(Produto produto) {
         int total = 0;
         for (ItemVenda item : itens) {
             if (item.getProduto() == produto) {
@@ -77,11 +92,11 @@ public class Venda {
             throw new VendaInvalidaException("Esta venda já foi finalizada.");
         }
         validar();
-        for (ItemVenda item : itens){
+        for (ItemVenda item : itens) {
             Produto produto = item.getProduto();
             int totalPedido = quantidadeNaVenda(produto);
             if (!produto.temEstoque(totalPedido)) {
-                throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome() + "\": pedido total "  + totalPedido + ", disponivel " + produto.getQuantidadeEstoque() + ".");
+                throw new EstoqueInsuficienteException("Estoque insuficiente para \"" + produto.getNome() + "\": pedido total " + totalPedido + ", disponivel " + produto.getQuantidadeEstoque() + ".");
             }
         }
         for (ItemVenda item : itens) {
