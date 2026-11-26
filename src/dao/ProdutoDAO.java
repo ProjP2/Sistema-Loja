@@ -31,7 +31,7 @@ import java.util.List;
                     "VALUES (?, ?, ?, ?, ?)";
 
             try (Connection con = ConexaoBanco.getConexao()) {
-                con.setAutoCommit(false); // as duas inserções valem juntas ou nenhuma vale
+                con.setAutoCommit(false);
 
                 try {
                     int id;
@@ -74,7 +74,7 @@ import java.util.List;
                 String sql = "INSERT INTO produto_perecivel (produto_id, data_validade) VALUES (?, ?)";
                 try (PreparedStatement ps = con.prepareStatement(sql)) {
                     ps.setInt(1, id);
-                    ps.setDate(2, Date.valueOf(p.getDataValidade())); // LocalDate -> java.sql.Date
+                    ps.setDate(2, Date.valueOf(p.getDataValidade()));
                     ps.executeUpdate();
                 }
             } else if (produto instanceof ProdutoEletronico e) {
@@ -97,7 +97,7 @@ import java.util.List;
             }
         }
 
-        // ---------- CONSULTAS ----------
+
 
         public Produto buscarPorId(int id) throws SQLException {
             String sql = SELECT_PRODUTO + "WHERE p.id = ?";
