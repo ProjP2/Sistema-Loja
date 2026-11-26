@@ -99,6 +99,67 @@ import java.util.List;
 
 
 
+        public boolean atualizar(Produto produto) throws SQLException {
+            String sql = "UPDATE produto SET nome = ?, preco_base = ?, quantidade_estoque = ?, ativo = ? " +
+                    "WHERE id = ? AND tipo = ?";
+
+            try (Connection con = ConexaoBanco.getConexao()) {
+                con.setAutoCommit(false);
+
+                try {
+                    try (PreparedStatement ps = con.prepareStatement(sql)) {
+                        ps.setString(1, produto.getNome());
+                        ps.setDouble(2, produto.getPrecoBase());
+                        ps.setInt(3, produto.getQuantidadeEstoque());
+                        ps.setBoolean(4, produto.isAtivo());
+                        ps.setInt(5, produto.getId());
+                        ps.setString(6, tipoDe(produto));
+
+                        if (ps.executeUpdate() == 0) {
+                            con.rollback();
+                            return false;
+                        }
+                    }
+
+                    atualizarSubtipo(con, produto);
+                    con.commit();
+                    return true;
+
+                } catch (SQLException e) {
+                    con.rollback();
+                    throw e;
+                }
+            }
+        }
+
+        private void atualizarSubtipo(Connection con, Produto produto) throws SQLException {
+            if (produto instanceof ProdutoPerecivel p) {
+                String sql = "UPDATE produto_perecivel SET data_validade = ? WHERE produto_id = ?";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ps.setDate(1, Date.valueOf(p.getDataValidade()));
+                    ps.setInt(2, p.getId());
+                    ps.executeUpdate();
+                }
+            } else if (produto instanceof ProdutoEletronico e) {
+                String sql = "UPDATE produto_eletronico SET meses_garantia = ? WHERE produto_id = ?";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ps.setInt(1, e.getMesesGarantia());
+                    ps.setInt(2, e.getId());
+                    ps.executeUpdate();
+                }
+            } else if (produto instanceof ProdutoVestuario v) {
+                String sql = "UPDATE produto_vestuario SET tamanho = ?, em_promocao = ?, preco_promocional = ? " +
+                        "WHERE produto_id = ?";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ps.setString(1, v.getTamanho());
+                    ps.setBoolean(2, v.isEmPromocao());
+                    ps.setDouble(3, v.getPrecoPromocional());
+                    ps.setInt(4, v.getId());
+                    ps.executeUpdate();
+                }
+            }
+        }
+
         public Produto buscarPorId(int id) throws SQLException {
             String sql = SELECT_PRODUTO + "WHERE p.id = ?";
 
