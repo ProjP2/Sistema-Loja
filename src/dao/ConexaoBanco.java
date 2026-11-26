@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoBanco {
-    private static final String URL = "jdbc:mysql://localhost:3306/sistema_loja";
+    private static final String URL = "jdbc:mysql://localhost:3306/sistema_loja?createDatabaseIfNotExist=true";
     private static final String USUARIO = "root";
     private static final String SENHA = System.getenv("DB_SENHA");
 
